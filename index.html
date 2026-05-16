@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iris — Your Personal Recruitment Agent</title>
+  <meta name="description" content="Iris learns how you write, how you think, and what you want. Then finds the right jobs and applies in your voice — not a template. You.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --bg: #0a0a0b;
+      --surface: #141416;
+      --border: #1f1f23;
+      --fg: #f5f5f7;
+      --fg-muted: #8e8e93;
+      --accent: #6366f1;
+      --accent-dim: #4f46e5;
+      --accent-glow: rgba(99, 102, 241, 0.25);
+      --radius: 12px;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 100px 0 0;
+      text-align: center;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--fg);
+      margin-bottom: 48px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), #a78bfa);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--accent), #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.125rem;
+      color: var(--fg-muted);
+      max-width: 600px;
+      margin: 0 auto 48px;
+    }
+
+    /* Value Props */
+    .props {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin: 0 0 80px;
+    }
+
+    @media (min-width: 640px) {
+      .props { grid-template-columns: 1fr 1fr; }
+    }
+
+    .prop-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: border-color 0.2s;
+    }
+
+    .prop-card:hover {
+      border-color: var(--accent);
+    }
+
+    .prop-card .icon {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .prop-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .prop-card p {
+      font-size: 0.875rem;
+      color: var(--fg-muted);
+      line-height: 1.5;
+    }
+
+    .prop-wide {
+      grid-column: 1 / -1;
+    }
+
+    /* Signup Form */
+    .signup-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 32px;
+      margin-bottom: 80px;
+      text-align: center;
+    }
+
+    .signup-section h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .signup-section > p {
+      color: var(--fg-muted);
+      margin-bottom: 32px;
+    }
+
+    .signup-form {
+      max-width: 440px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .signup-form input {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--fg);
+      font-family: inherit;
+      font-size: 0.9375rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .signup-form input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .signup-form input::placeholder {
+      color: #555;
+    }
+
+    .signup-form select {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--fg);
+      font-family: inherit;
+      font-size: 0.9375rem;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='%238e8e93'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      transition: border-color 0.2s;
+    }
+
+    .signup-form select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .signup-form button {
+      width: 100%;
+      padding: 14px 24px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent), #7c3aed);
+      color: white;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .signup-form button:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .signup-form button:active {
+      transform: translateY(0);
+    }
+
+    .form-note {
+      font-size: 0.8rem;
+      color: #555;
+      margin-top: 12px;
+    }
+
+    /* Trust / social proof placeholder */
+    .trust {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .trust p {
+      font-size: 0.875rem;
+      color: var(--fg-muted);
+    }
+
+    /* Footer */
+    footer {
+      width: 100%;
+      padding: 32px 0 48px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    footer a {
+      color: var(--fg-muted);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--fg);
+    }
+
+    /* Success state */
+    .success-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .success-state.show {
+      display: flex;
+    }
+
+    .success-state .check {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #059669, #10b981);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .success-state h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .success-state p {
+      color: var(--fg-muted);
+      font-size: 0.9375rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .hero { padding-top: 60px; }
+      .signup-section { padding: 32px 20px; }
+      .signup-form { gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="logo">
+        <div class="logo-mark">I</div>
+        <span>Iris</span>
+      </div>
+
+      <h1>
+        Your personal<br>
+        <span class="highlight">recruitment agent</span>
+      </h1>
+      <p>
+        Iris learns how you write, how you think, and what you want. 
+        Then finds the right jobs and applies in your voice — 
+        not a template. <em>You</em>.
+      </p>
+    </section>
+
+    <!-- Value Props -->
+    <section class="props">
+      <div class="prop-card prop-wide">
+        <span class="icon">🎙️</span>
+        <h3>Onboards through conversation, not forms</h3>
+        <p>Iris interviews you until it understands your tone, your style, and what makes you different. No tedious checkboxes.</p>
+      </div>
+      <div class="prop-card">
+        <span class="icon">🎯</span>
+        <h3>Quality over quantity</h3>
+        <p>Applies only to roles worth your time, with cover letters that actually sound like you. No bulk-spamming.</p>
+      </div>
+      <div class="prop-card">
+        <span class="icon">🔒</span>
+        <h3>You stay in control</h3>
+        <p>Review and approve every application before it sends. Iris works for you, not the other way around.</p>
+      </div>
+    </section>
+
+    <!-- Signup -->
+    <section class="signup-section" id="signup">
+      <div id="form-container">
+        <h2>Get early access</h2>
+        <p>Be first in line when Iris launches. Free during early access.</p>
+        <form class="signup-form" id="waitlist-form" action="https://formspree.io/f/REPLACE_ME" method="POST">
+          <input type="text" name="name" placeholder="Your name" required>
+          <input type="email" name="email" placeholder="Your email" required>
+          <select name="industry" required>
+            <option value="" disabled selected>What industry are you in?</option>
+            <option value="tech">Tech / Engineering</option>
+            <option value="creative">Creative / Design</option>
+            <option value="finance">Finance / Law</option>
+            <option value="healthcare">Healthcare / Science</option>
+            <option value="sales">Sales / Marketing</option>
+            <option value="other">Other</option>
+          </select>
+          <button type="submit">Join the waitlist →</button>
+          <p class="form-note">No spam. No bulk applications. Just early access when we launch.</p>
+        </form>
+      </div>
+      <div class="success-state" id="success-state">
+        <div class="check">✓</div>
+        <h3>You're on the list</h3>
+        <p>We'll let you know when Iris is ready. You're one of the first.</p>
+      </div>
+    </section>
+
+    <!-- Trust -->
+    <section class="trust">
+      <p>Built by a solo founder who understands the job market —<br>no VC, no investors, just a better way to apply.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2026 Iris. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    const form = document.getElementById('waitlist-form');
+    const formContainer = document.getElementById('form-container');
+    const successState = document.getElementById('success-state');
+
+    // Client-side success on form submit (Formspree redirects to their success page by default)
+    // We use fetch instead to stay on our page
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const data = new FormData(form);
+      const plainFormData = Object.fromEntries(data.entries());
+      const fetchData = JSON.stringify(plainFormData);
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: fetchData,
+        });
+
+        if (response.ok) {
+          formContainer.style.display = 'none';
+          successState.classList.add('show');
+        } else {
+          alert('Something went wrong. Please try again.');
+        }
+      } catch (err) {
+        alert('Something went wrong. Please try again.');
+      }
+    });
+  </script>
+</body>
+</html>
