@@ -375,7 +375,10 @@
       <div id="form-container">
         <h2>Get early access</h2>
         <p>Be first in line when Iris launches. Free during early access.</p>
-        <form class="signup-form" id="waitlist-form" action="https://formspree.io/f/REPLACE_ME" method="POST">
+        <form class="signup-form" id="waitlist-form" action="https://formsubmit.co/ish@macxseed.com" method="POST">
+          <input type="hidden" name="_subject" value="Iris: New waitlist signup">
+          <input type="hidden" name="_captcha" value="true">
+          <input type="hidden" name="_next" value="https://reverendish.github.io/iris-landing/#thanks">
           <input type="text" name="name" placeholder="Your name" required>
           <input type="email" name="email" placeholder="Your email" required>
           <select name="industry" required>
@@ -410,36 +413,12 @@
   </div>
 
   <script>
-    const form = document.getElementById('waitlist-form');
-    const formContainer = document.getElementById('form-container');
-    const successState = document.getElementById('success-state');
-
-    // Client-side success on form submit (Formspree redirects to their success page by default)
-    // We use fetch instead to stay on our page
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const data = new FormData(form);
-      const plainFormData = Object.fromEntries(data.entries());
-      const fetchData = JSON.stringify(plainFormData);
-
-      try {
-        const response = await fetch(form.action, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: fetchData,
-        });
-
-        if (response.ok) {
-          formContainer.style.display = 'none';
-          successState.classList.add('show');
-        } else {
-          alert('Something went wrong. Please try again.');
-        }
-      } catch (err) {
-        alert('Something went wrong. Please try again.');
-      }
-    });
+    // Show success message if redirected back after form submit
+    if (window.location.hash === '#thanks') {
+      document.getElementById('form-container').style.display = 'none';
+      document.getElementById('success-state').classList.add('show');
+      history.replaceState(null, '', window.location.pathname);
+    }
   </script>
 </body>
 </html>
